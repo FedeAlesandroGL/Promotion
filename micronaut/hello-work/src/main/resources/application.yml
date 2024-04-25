@@ -1,0 +1,51 @@
+micronaut:
+  application:
+    name: helloWork
+  server:
+    port: 8085
+    cors:
+      enabled: true
+      configurations:  #all y web para micronaut no significa nada, solo para entendimiento del desarrollador
+        all:
+          allowedMethods:
+            - POST
+            - PUT
+          exposedHeaders:
+            - Content-Type
+            - Authorization
+        web:
+          allowedOrigins:
+            -http://foo.com
+            - ^http(|s):\/\/www\.google\.com$
+          allowedHeaders:
+            - Content-Type
+            - Authorization
+          maxAge: 3600 # 1 hour
+  ssl:
+    enabled: false
+    # buildSelfSigned: true #Micronaut creará un certificado autofirmado.
+    # port: 8080
+  router:
+    versioning:
+      enabled: true
+      default-version: 1
+      parameter:
+        enabled: false
+        names: 'v,api-version'
+      header:
+        enabled: true
+        names:
+          - 'X-API-VERSION'
+          - 'Accept-Version'
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+netty:
+  default:
+    allocator:
+      max-order: 3
+
